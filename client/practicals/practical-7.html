@@ -5,14 +5,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Practical 7 | Fixora Vue Directives</title>
   <style>
-    *{box-sizing:border-box}body{margin:0;background:#f4f7fb;color:#172033;font-family:Arial,sans-serif}
-    header{background:#10233f;color:white;padding:28px 18px;text-align:center}header a{color:#bfdbfe}
-    main{max-width:1000px;margin:28px auto;padding:0 16px;display:grid;gap:18px}
-    section{background:white;padding:22px;border-radius:14px;box-shadow:0 5px 20px #0f172a0d}
-    h2{margin-top:0;color:#1d4ed8}button,input{font:inherit;padding:10px 12px;border:1px solid #cbd5e1;border-radius:8px}
-    button{background:#2563eb;color:white;border:0;cursor:pointer}button:hover{background:#1d4ed8}
-    input{max-width:100%}.row{display:flex;gap:8px;flex-wrap:wrap}.task{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid #e2e8f0}
-    .hint{color:#64748b;font-size:.92rem}.pill{background:#dbeafe;color:#1d4ed8;padding:4px 8px;border-radius:99px;font-size:.8rem}
+    *{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 0 0,#e5edff 0,transparent 32%),#f5f7fc;color:#17233b;font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif}
+    header{position:relative;overflow:hidden;background:linear-gradient(120deg,#101d38,#203f91 65%,#4f46e5);color:white;padding:42px 18px;text-align:center}
+    header:after{content:"";position:absolute;width:280px;height:280px;border-radius:50%;background:#60a5fa20;right:-80px;top:-150px}
+    header h1{font-size:clamp(1.7rem,4vw,2.6rem);font-weight:900;letter-spacing:-.04em;margin:0}header p{color:#dbeafe}header a{color:#fff;text-underline-offset:4px}
+    main{max-width:1040px;margin:32px auto;padding:0 16px;display:grid;gap:20px}
+    section{background:rgba(255,255,255,.94);padding:clamp(20px,4vw,30px);border:1px solid #e3e9f4;border-radius:20px;box-shadow:0 12px 35px #1725540a}
+    h2{margin-top:12px;color:#1d4ed8;font-size:1.35rem;font-weight:800;letter-spacing:-.02em}
+    button,input{font:inherit;padding:11px 14px;border:1px solid #d6deed;border-radius:10px;outline-offset:2px}
+    input{background:#fbfcff}input:focus{border-color:#647ff0;box-shadow:0 0 0 3px #3157e81a}
+    button{background:#3157e8;color:white;border:0;cursor:pointer;font-weight:700;transition:background .2s,transform .2s}button:hover{background:#2445c7;transform:translateY(-1px)}
+    input{max-width:100%}.row{display:flex;gap:10px;flex-wrap:wrap}.row input{flex:1;min-width:210px}
+    .task{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px 14px;margin:8px 0;border:1px solid #e6ebf4;border-radius:12px;background:#fbfcff}
+    .hint{color:#64748b;font-size:.92rem;line-height:1.6}.pill{display:inline-block;background:#e7edff;color:#2445c7;padding:6px 11px;border-radius:99px;font-size:.75rem;font-weight:800;letter-spacing:.07em}
+    code{background:#f1f5f9;padding:2px 6px;border-radius:5px;color:#4338ca}
   </style>
 </head>
 <body>
