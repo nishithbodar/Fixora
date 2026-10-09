@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Practical 7 | Fixora Vue Directives</title>
+  <style>
+    *{box-sizing:border-box}body{margin:0;background:#f4f7fb;color:#172033;font-family:Arial,sans-serif}
+    header{background:#10233f;color:white;padding:28px 18px;text-align:center}header a{color:#bfdbfe}
+    main{max-width:1000px;margin:28px auto;padding:0 16px;display:grid;gap:18px}
+    section{background:white;padding:22px;border-radius:14px;box-shadow:0 5px 20px #0f172a0d}
+    h2{margin-top:0;color:#1d4ed8}button,input{font:inherit;padding:10px 12px;border:1px solid #cbd5e1;border-radius:8px}
+    button{background:#2563eb;color:white;border:0;cursor:pointer}button:hover{background:#1d4ed8}
+    input{max-width:100%}.row{display:flex;gap:8px;flex-wrap:wrap}.task{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid #e2e8f0}
+    .hint{color:#64748b;font-size:.92rem}.pill{background:#dbeafe;color:#1d4ed8;padding:4px 8px;border-radius:99px;font-size:.8rem}
+  </style>
+</head>
+<body>
+  <header>
+    <h1>FIXORA · Vue.js Custom Directives</h1>
+    <p>Practical 7: three directive demonstrations</p>
+    <a href="index.html">Back to practicals menu</a>
+  </header>
+
+  <main id="app">
+    <section>
+      <span class="pill">PART I</span>
+      <h2>Click text to convert it to uppercase</h2>
+      <p v-uppercase-on-click class="hint">Click this sentence. The custom directive converts its text to uppercase.</p>
+      <p class="hint">Directive: <code>v-uppercase-on-click</code></p>
+    </section>
+
+    <section>
+      <span class="pill">PART II</span>
+      <h2>Dynamic list using a custom directive</h2>
+      <p class="hint">The custom directive adds a visual marker to each list item. Vue renders the list dynamically from an array.</p>
+      <div class="row">
+        <input v-model.trim="newTask" @keyup.enter="addTask" aria-label="New home-care task" placeholder="e.g. Schedule AC service">
+        <button @click="addTask">Add item</button>
+      </div>
+      <ul class="mt-3">
+        <li v-for="task in tasks" :key="task.id" v-task-marker class="task">
+          <span>{{ task.label }}</span>
+          <button @click="removeTask(task.id)" :aria-label="'Remove ' + task.label">Remove</button>
+        </li>
+      </ul>
+      <p class="hint">Directive: <code>v-task-marker</code>. Add and remove items to demonstrate the dynamic list.</p>
+    </section>
+
+    <section>
+      <span class="pill">PART III</span>
+      <h2>Human-readable date formatting</h2>
+      <p>Example date: <strong v-format-date="'2026-10-09'"></strong></p>
+      <p>Current date: <strong v-format-date="today"></strong></p>
+      <p class="hint">Directive: <code>v-format-date</code>. It formats an ISO date into a readable date such as “Friday, October 9, 2026”.</p>
+    </section>
+  </main>
+
+  <!-- Vue 3 is loaded from CDN for this classroom demonstration. -->
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <script>
+    const { createApp } = Vue;
+
+    // PART I: A custom directive that changes an element's text to uppercase when clicked.
+    const uppercaseOnClick = {
+      mounted(element) {
+        element.style.cursor = "pointer";
+        element.title = "Click to uppercase";
+        element.addEventListener("click", () => {
+          element.textContent = element.textContent.toLocaleUpperCase();
+        });
+      },
+      unmounted(element) {
+        // Remove the event listener when Vue removes this element.
+        // The handler is attached in mounted; this lab keeps the element mounted.
+      }
+    };
+
+    // PART II: Custom directive to visually mark each item in the dynamic list.
+    const taskMarker = {
+      mounted(element) {
+        element.style.listStyle = "none";
+        element.style.borderLeft = "4px solid #2563eb";
+        element.style.paddingLeft = "12px";
+        element.style.margin = "8px 0";
+      },
+      updated(element) {
+        element.style.borderLeftColor = "#2563eb";
+      }
+    };
+
+    // PART III: Format a supplied date value in a human-readable way.
+    const formatDate = {
+      mounted(element, binding) {
+        renderDate(element, binding.value);
+      },
+      updated(element, binding) {
+        renderDate(element, binding.value);
+      }
+    };
+
+    function renderDate(element, value) {
+      const date = new Date(value + "T12:00:00");
+      if (Number.isNaN(date.getTime())) {
+        element.textContent = "Invalid date";
+        return;
+      }
+      element.textContent = new Intl.DateTimeFormat("en-IN", {
+        weekday: "long", year: "numeric", month: "long", day: "numeric"
+      }).format(date);
+    }
+
+    createApp({
+      data() {
+        return {
+          newTask: "",
+          today: new Date().toISOString().slice(0, 10),
+          tasks: [
+            { id: 1, label: "Check AC service date" },
+            { id: 2, label: "Replace water purifier filter" }
+          ],
+          nextId: 3
+        };
+      },
+      methods: {
+        addTask() {
+          if (!this.newTask) return;
+          this.tasks.push({ id: this.nextId++, label: this.newTask });
+          this.newTask = "";
+        },
+        removeTask(id) {
+          this.tasks = this.tasks.filter(task => task.id !== id);
+        }
+      },
+      directives: {
+        uppercaseOnClick,
+        taskMarker,
+        formatDate
+      }
+    }).mount("#app");
+  </script>
+</body>
+</html>
