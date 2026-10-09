@@ -18,8 +18,20 @@
   <!-- <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet"> -->
 
   <style>
-    body{background:#f3f6fb}.brand{font-weight:800;letter-spacing:.08em;color:#1d4ed8}
-    .form-shell{max-width:780px;margin:36px auto}.required-note{font-size:.9rem;color:#64748b}
+    :root{--ink:#13213b;--blue:#3157e8;--muted:#64748b}
+    *{box-sizing:border-box}
+    body{background:radial-gradient(circle at 10% 5%,#e5edff 0,transparent 30%),linear-gradient(135deg,#f7f9ff,#eef2ff);color:var(--ink);font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;min-height:100vh}
+    .navbar{background:rgba(255,255,255,.88)!important;backdrop-filter:blur(14px)}
+    .brand{font-weight:900;letter-spacing:.12em;color:var(--blue)!important}
+    .form-shell{max-width:820px;margin:48px auto}.card{border-radius:24px;overflow:hidden;box-shadow:0 24px 70px #1e3a8a18!important}
+    .card-body{background:linear-gradient(180deg,#fff,#fcfdff)}
+    .eyebrow{font-size:.75rem;letter-spacing:.14em;font-weight:800;color:var(--blue)}
+    .form-label{font-weight:650;color:#25334d}.form-control,.form-select{min-height:48px;border-radius:11px;border-color:#d9e1ef}
+    textarea.form-control{min-height:100px}.form-control:focus,.form-select:focus{border-color:#7892ff;box-shadow:0 0 0 .22rem #3157e81c}
+    .btn{border-radius:11px;font-weight:700;min-height:46px}.btn-primary{background:var(--blue);border-color:var(--blue)}
+    .required-note{font-size:.9rem;color:var(--muted)}.hero-strip{height:7px;background:linear-gradient(90deg,#3157e8,#7c3aed,#38bdf8)}
+    .form-footer{color:#64748b;font-size:.85rem}
+    @media(max-width:575px){.form-shell{margin:22px auto}.card-body{padding:24px!important}}
   </style>
 </head>
 <body>
@@ -31,9 +43,9 @@
   </nav>
 
   <main class="container form-shell">
-    <div class="card border-0 shadow-sm">
+    <div class="card border-0"><div class="hero-strip"></div>
       <div class="card-body p-4 p-md-5">
-        <span class="badge text-bg-primary mb-3">PART III · REGISTRATION FORM</span>
+        <span class="badge rounded-pill text-bg-primary mb-3 px-3 py-2">PART III · REGISTRATION FORM</span>
         <h1 class="h3 fw-bold">Student Registration</h1>
         <p class="text-secondary">Bootstrap 5 form demonstration for the Full Stack Development practical.</p>
         <p class="required-note">Fields marked * are required.</p>
@@ -75,7 +87,7 @@
         <div id="result" class="alert alert-success mt-4 d-none" role="status"></div>
       </div>
     </div>
-    <p class="text-center text-secondary small mt-3">Fixora · Practical 5 demonstration</p>
+    <p class="text-center form-footer mt-4">FIXORA <span class="mx-2">•</span> PRACTICAL 5 <span class="mx-2">•</span> BOOTSTRAP 5</p>
   </main>
 
   <!-- CDN version of Bootstrap JavaScript (Part I). For offline mode, comment this out and uncomment the local script below. -->
